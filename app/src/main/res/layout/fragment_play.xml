@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.graywolf.bassdrop.PlayActivity$PlaceholderFragment"
+    android:background="@android:color/black">
+
+    <TextView
+        android:text="00:32:00"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="73sp"
+        android:id="@+id/timerTextView"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:textColor="#ffe040fb" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DROP BASS"
+        android:id="@+id/bassButton"
+        android:textSize="54sp"
+        android:textColor="#ffe51c23"
+        android:layout_below="@+id/buildButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/bassButton"
+        android:layout_marginTop="44dp"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Drop 1"
+            android:id="@+id/dropOne"
+            android:textSize="34sp"
+            android:textColor="#ffe040fb" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Drop 2"
+            android:id="@+id/dropTwo"
+            android:textSize="34sp"
+            android:layout_gravity="right"
+            android:textColor="#ffe040fb" />
+    </RadioGroup>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Build"
+        android:id="@+id/buildButton"
+        android:textColor="#ff5af158"
+        android:textSize="24sp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

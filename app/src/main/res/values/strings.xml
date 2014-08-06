@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BassDrop</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="bass_drop_main_screen">When Will The Bass</string>
+    <string name="title_activity_play">PlayActivity</string>
+
+</resources>
