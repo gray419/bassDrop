@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
             MyTimerTask myTast = new MyTimerTask();
             Timer myTimer = new Timer();
 
-            myTimer.schedule(myTast,1500,4000);
+            myTimer.schedule(myTast,1000,4000);
 
             Button playButton = (Button) rootView.findViewById(R.id.playButton);
             playButton.setOnClickListener(new View.OnClickListener() {
