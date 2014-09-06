@@ -16,44 +16,44 @@
         android:textSize="73sp"
         android:id="@+id/timerTextView"
         android:gravity="center_horizontal"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="30dp"
         android:textColor="#ffe040fb" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:text="Build"
+        android:id="@+id/buildButton"
+        android:textColor="#ff5af158"
+        android:textSize="24sp"
+        android:layout_marginTop="65dp"
+        android:layout_below="@id/timerTextView"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DROP BASS"
         android:id="@+id/bassButton"
-        android:textSize="54sp"
+        android:textSize="45sp"
         android:textColor="#ffe51c23"
         android:layout_below="@+id/buildButton"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Build"
-        android:id="@+id/buildButton"
-        android:textColor="#ff5af158"
-        android:textSize="24sp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="invisible"/>
 
     <Spinner
     android:id="@+id/dropSelecterSpinner"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/bassButton"
-    android:layout_above="@+id/linearlayoutAd"/>
+    android:layout_marginBottom="10dp"
+    android:layout_height="55dp"
+    android:layout_below="@id/bassButton" />
 
     <LinearLayout
         android:id="@+id/linearlayoutAd"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bassButton"
+        android:layout_below="@+id/dropSelecterSpinner"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

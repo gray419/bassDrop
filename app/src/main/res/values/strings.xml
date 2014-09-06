@@ -7,4 +7,12 @@
     <string name="bass_drop_main_screen">When Will The Bass</string>
     <string name="title_activity_play">Stop</string>
 
+        <string-array name="drop_array">
+            <item>Lonely Island</item>
+            <item>DJ Snake</item>
+            <item>Salto Wiwek</item>
+            <item>Brillz</item>
+            <item>Carnage</item>
+        </string-array>
+
 </resources>
