@@ -30,34 +30,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <RadioGroup
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/bassButton"
-        android:layout_marginTop="44dp"
-        android:layout_centerVertical="true"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Drop 1"
-            android:id="@+id/dropOne"
-            android:textSize="34sp"
-            android:textColor="#ffe040fb" />
-
-        <RadioButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Drop 2"
-            android:id="@+id/dropTwo"
-            android:textSize="34sp"
-            android:layout_gravity="right"
-            android:textColor="#ffe040fb" />
-    </RadioGroup>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,5 +41,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Spinner
+    android:id="@+id/dropSelecterSpinner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/bassButton"
+    android:layout_above="@+id/linearlayoutAd"/>
+
+    <LinearLayout
+        android:id="@+id/linearlayoutAd"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bassButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
