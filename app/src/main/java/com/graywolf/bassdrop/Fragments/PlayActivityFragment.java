@@ -27,30 +27,10 @@ public class PlayActivityFragment extends Fragment{
     private boolean mBuildUpStarted = false;
 
     private MediaPlayer mMediaPlayer;
-
-    Handler customHandler = new Handler();
-
+    private Handler customHandler = new Handler();
     private TextView mTimerValue;
     private View mRootView;
-
     private AdView mBannerAdView;
-
-    public PlayActivityFragment() {
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        mMediaPlayer.stop();
-        mMediaPlayer.release();
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-
-        mMediaPlayer.release();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,6 +108,20 @@ public class PlayActivityFragment extends Fragment{
         customHandler.postDelayed(updateTimerThread, 0);
 
         return rootView;
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mMediaPlayer.stop();
+        mMediaPlayer.release();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        mMediaPlayer.release();
     }
 
     private Runnable updateTimerThread = new Runnable() {
