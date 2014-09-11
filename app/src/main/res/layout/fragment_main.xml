@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Drop?"
+        android:text="Drop"
         android:textSize="74sp"
         android:textColor="#ffe040fb"
         android:id="@+id/dropTextView"
@@ -41,5 +41,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Highscore: "
+        android:id="@+id/highscoreTextView"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/NeonGreen"
+        android:textSize="24sp" />
 
 </RelativeLayout>

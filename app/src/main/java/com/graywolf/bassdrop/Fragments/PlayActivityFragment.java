@@ -2,6 +2,7 @@ package com.graywolf.bassdrop.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,12 +15,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.graywolf.bassdrop.Constants;
 import com.graywolf.bassdrop.R;
 
 public class PlayActivityFragment extends Fragment{
@@ -43,6 +46,8 @@ public class PlayActivityFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_play, container, false);
         mRootView = rootView;
         mContext = getActivity().getApplicationContext();
+        final SharedPreferences sharedPref = getActivity().getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
 
         initBannerAd();
 
@@ -50,25 +55,14 @@ public class PlayActivityFragment extends Fragment{
         mMediaPlayer.setLooping(true);
         mMediaPlayer.start();
         final Button dropTheBassButton = (Button) rootView.findViewById(R.id.bassButton);
-        final Spinner spinner = (Spinner) mRootView.findViewById(R.id.dropSelecterSpinner);
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
-                        R.array.drop_array, R.layout.drop_spinner_item);
-        // Specify the layout to use when the list of choices appears
-                adapter.setDropDownViewResource(R.layout.spinner_drop_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-
 
         final Button buildButton = (Button) rootView.findViewById(R.id.buildButton);
         buildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mMediaPlayer.stop();
-                mMediaPlayer.reset();
 
-                if(!mBuildUpStarted){
+                if (!mBuildUpStarted) {
                     mMediaPlayer = MediaPlayer.create(mContext, R.raw.build_up_1);
                     mMediaPlayer.setLooping(true);
                     mMediaPlayer.start();
@@ -77,8 +71,7 @@ public class PlayActivityFragment extends Fragment{
 
                     //Show Bass Option
                     dropTheBassButton.setVisibility(View.VISIBLE);
-                }
-                else if(mBuildUpStarted){
+                } else if (mBuildUpStarted) {
                     mMediaPlayer = MediaPlayer.create(mContext, R.raw.main_build);
                     mMediaPlayer.setLooping(true);
                     mMediaPlayer.start();
@@ -98,30 +91,37 @@ public class PlayActivityFragment extends Fragment{
                 buildButton.setEnabled(false);
 
                 mMediaPlayer.stop();
+                int songResourceId = 0;
 
-                int selectedDrop = spinner.getSelectedItemPosition();
-                int songResourceId=0;
-
-                switch (selectedDrop){
-                    case 0:
+                int selectedDrop = mDropSelectorSpinner.getSelectedItemPosition();
+                switch (selectedDrop) {
+                    case 1:
                         songResourceId = R.raw.main_drop_lonley_island;
                         break;
-                    case 1:
+                    case 2:
                         songResourceId = R.raw.drop_snake_lunatic;
                         break;
-                    case 2:
+                    case 3:
                         songResourceId = R.raw.drop_salto_wiwek_onyourmark;
                         break;
-                    case 3:
+                    case 4:
                         songResourceId = R.raw.drop_brillz_swoop;
                         break;
-                    case 4:
+                    case 5:
                         songResourceId = R.raw.carnage_drop;
                         break;
+                    default:
+                        songResourceId = R.raw.main_drop_lonley_island;
                 }
 
                 mMediaPlayer = MediaPlayer.create(mContext, songResourceId);
                 mMediaPlayer.start();
+
+                editor.putString(Constants.HIGH_SCORE, mTimerValue.getText().toString());
+                editor.commit();
+
+                Toast toast = Toast.makeText(mContext, "New High Score!!", Toast.LENGTH_SHORT);
+                toast.show();
 
                 timeSwapBuff += timeInMilliseconds;
                 customHandler.removeCallbacks(updateTimerThread);
@@ -132,6 +132,12 @@ public class PlayActivityFragment extends Fragment{
             }
         });
 
+        mDropSelectorSpinner = (Spinner) mRootView.findViewById(R.id.dropSelecterSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
+                R.array.drop_array, R.layout.drop_spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_drop_dropdown_item);
+        mDropSelectorSpinner.setAdapter(adapter);
+
         mTimerValue = (TextView) rootView.findViewById(R.id.timerTextView);
 
         startTime = SystemClock.uptimeMillis();
@@ -140,20 +146,25 @@ public class PlayActivityFragment extends Fragment{
         return rootView;
     }
 
-
-
     @Override
     public void onPause(){
         super.onPause();
+        mMediaPlayer.pause();
+        customHandler.removeCallbacks(updateTimerThread);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
         mMediaPlayer.stop();
         mMediaPlayer.release();
     }
 
     @Override
-    public void onStop(){
-        super.onStop();
-
-        mMediaPlayer.release();
+    public void onResume(){
+        super.onResume();
+        mMediaPlayer.start();
+        customHandler.postDelayed(updateTimerThread, 3000);
     }
 
     private void initBannerAd() {
@@ -173,7 +184,7 @@ public class PlayActivityFragment extends Fragment{
         mBannerAdView.loadAd(adRequest);
     }
 
-    private Runnable updateTimerThread = new Runnable() {
+    private  Runnable updateTimerThread = new Runnable() {
 
         public void run() {
 
@@ -183,7 +194,6 @@ public class PlayActivityFragment extends Fragment{
 
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
-            int hours = mins / 60;
 
             secs = secs % 60;
 

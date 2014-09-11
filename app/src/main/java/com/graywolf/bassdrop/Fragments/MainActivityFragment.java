@@ -1,15 +1,19 @@
 package com.graywolf.bassdrop.Fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.graywolf.bassdrop.Constants;
 import com.graywolf.bassdrop.PlayActivity;
 import com.graywolf.bassdrop.R;
 
@@ -25,6 +29,16 @@ public class MainActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRootView = rootView;
+
+        SharedPreferences sharedPrefs = getActivity().getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE);
+        String highScore = sharedPrefs.getString(Constants.HIGH_SCORE,"");
+
+        TextView highScoreTextView = (TextView) mRootView.findViewById(R.id.highscoreTextView);
+        highScoreTextView.setText("");
+
+        if(!highScore.isEmpty()){
+            highScoreTextView.setText("Highscore is: "+ highScore);
+        }
 
         MyTimerTask myTask = new MyTimerTask();
         Timer myTimer = new Timer();
@@ -42,6 +56,20 @@ public class MainActivityFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        SharedPreferences sharedPrefs = getActivity().getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE);
+        String highScore = sharedPrefs.getString(Constants.HIGH_SCORE,"");
+
+        TextView highScoreTextView = (TextView) mRootView.findViewById(R.id.highscoreTextView);
+        highScoreTextView.setText("");
+
+        if(!highScore.isEmpty()){
+            highScoreTextView.setText("Highscore is: "+ highScore);
+        }
     }
 
     private class MyTimerTask extends TimerTask {
