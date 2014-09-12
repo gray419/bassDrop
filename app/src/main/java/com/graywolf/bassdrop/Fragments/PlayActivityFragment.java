@@ -39,6 +39,7 @@ public class PlayActivityFragment extends Fragment{
     private AdView mBannerAdView;
     private Spinner mDropSelectorSpinner;
     private Context mContext;
+    private Boolean mHasBassDropped;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +47,8 @@ public class PlayActivityFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_play, container, false);
         mRootView = rootView;
         mContext = getActivity().getApplicationContext();
+        mHasBassDropped = false;
+
         final SharedPreferences sharedPref = getActivity().getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -54,6 +57,7 @@ public class PlayActivityFragment extends Fragment{
         mMediaPlayer = MediaPlayer.create(mContext, R.raw.main_build);
         mMediaPlayer.setLooping(true);
         mMediaPlayer.start();
+
         final Button dropTheBassButton = (Button) rootView.findViewById(R.id.bassButton);
 
         final Button buildButton = (Button) rootView.findViewById(R.id.buildButton);
@@ -89,6 +93,8 @@ public class PlayActivityFragment extends Fragment{
             public void onClick(View view) {
 
                 buildButton.setEnabled(false);
+
+                mHasBassDropped = true;
 
                 mMediaPlayer.stop();
                 int songResourceId = 0;
@@ -163,15 +169,16 @@ public class PlayActivityFragment extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
+        if(!mHasBassDropped){
+            customHandler.postDelayed(updateTimerThread, 0);
+        }
         mMediaPlayer.start();
-        customHandler.postDelayed(updateTimerThread, 3000);
     }
 
     private void initBannerAd() {
         mBannerAdView = new AdView(mContext);
         mBannerAdView.setAdSize(AdSize.BANNER);
         mBannerAdView.setAdUnitId("ca-app-pub-6013564165619332/177915880");
-
         LinearLayout linearLayout = (LinearLayout) mRootView.findViewById(R.id.linearlayoutAd);
         linearLayout.addView(mBannerAdView);
 
@@ -192,16 +199,13 @@ public class PlayActivityFragment extends Fragment{
 
             updatedTime = timeSwapBuff + timeInMilliseconds;
 
-            int secs = (int) (updatedTime / 1000);
-            int mins = secs / 60;
+            int milliseconds = (int) ((updatedTime / 10) % 100);
+            int seconds = (int) (updatedTime / 1000) % 60 ;
+            int minutes = (int) ((updatedTime / (1000*60)) % 60);
+            int hours   = (int) ((updatedTime / (1000*60*60)) % 24);
 
-            secs = secs % 60;
-
-            int milliseconds = (int) (updatedTime % 1000);
-
-            mTimerValue.setText("" + String.format("%02d", mins) + ":"
-                    + String.format("%02d", secs) + ":"
-                    + String.format("%01d", milliseconds));
+            mTimerValue.setText(
+                    String.format("%02d:%02d:%02d",minutes,seconds,milliseconds));
 
             customHandler.postDelayed(this, 0);
         }

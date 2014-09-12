@@ -11,7 +11,7 @@
     </style>
 
     <style name="TitleTextStyle" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">#FFF</item>
+        <item name="android:textColor">@color/NeonGreen</item>
     </style>
 
     <color name="NeonGreen">#ff5af158</color>
