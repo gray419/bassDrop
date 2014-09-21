@@ -138,11 +138,17 @@ public class PlayActivityFragment extends Fragment{
                     mMediaPlayer = MediaPlayer.create(mContext, mSongResourceId);
                     mMediaPlayer.start();
 
-                    sharedPrefsEditor.putString(Constants.HIGH_SCORE, mTimerValue.getText().toString());
-                    sharedPrefsEditor.commit();
 
-                    Toast toast = Toast.makeText(mContext, "New High Score!!", Toast.LENGTH_SHORT);
-                    toast.show();
+                   long previousScore = parseTime(sharedPref.getString(Constants.HIGH_SCORE,"00:00:00"));
+                   long currentScore = parseTime(mTimerValue.getText().toString());
+
+                   if (currentScore > previousScore){
+                       sharedPrefsEditor.putString(Constants.HIGH_SCORE, mTimerValue.getText().toString());
+                       sharedPrefsEditor.commit();
+
+                       Toast toast = Toast.makeText(mContext, "New High Score!!", Toast.LENGTH_SHORT);
+                       toast.show();
+                   }
 
                     mTimeSwapBuff += mTimeInMilliseconds;
                     customHandler.removeCallbacks(updateTimerThread);
@@ -174,8 +180,6 @@ public class PlayActivityFragment extends Fragment{
         super.onStart();
         if(!mHasBassDropped){
             mStartTime = SystemClock.uptimeMillis();
-            Log.i("Robert", String.valueOf(mElapsedTime));
-            Log.i("Robert", String.valueOf(mTimeSwapBuff));
             mTimeSwapBuff = mElapsedTime;
             customHandler.postDelayed(updateTimerThread, 0);
         mMediaPlayer.start();
@@ -186,7 +190,6 @@ public class PlayActivityFragment extends Fragment{
     public void onStop(){
         super.onStop();
         mMediaPlayer.pause();
-        Log.i("Robert", mTimerValue.getText().toString());
         mElapsedTime = parseTime(mTimerValue.getText().toString());
         customHandler.removeCallbacks(updateTimerThread);
     }
@@ -195,7 +198,6 @@ public class PlayActivityFragment extends Fragment{
     public void onPause(){
         super.onPause();
         mMediaPlayer.pause();
-        mElapsedTime = parseTime(mTimerValue.getText().toString());
         customHandler.removeCallbacks(updateTimerThread);
     }
 

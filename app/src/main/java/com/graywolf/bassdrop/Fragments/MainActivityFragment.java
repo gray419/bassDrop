@@ -23,7 +23,6 @@ import java.util.TimerTask;
 public class MainActivityFragment extends Fragment {
     private View mRootView;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,15 +30,7 @@ public class MainActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRootView = rootView;
 
-        SharedPreferences sharedPrefs = getActivity().getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE);
-        String highScore = sharedPrefs.getString(Constants.HIGH_SCORE,"");
-
-        TextView highScoreTextView = (TextView) mRootView.findViewById(R.id.highscoreTextView);
-        highScoreTextView.setText("");
-
-        if(!highScore.isEmpty()){
-            highScoreTextView.setText("Highscore is: "+ highScore);
-        }
+        checkForHighScore();
 
         MyTimerTask myTask = new MyTimerTask();
         Timer myTimer = new Timer();
@@ -62,11 +53,16 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
+
+        checkForHighScore();
+    }
+
+    private void checkForHighScore() {
         SharedPreferences sharedPrefs = getActivity().getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE);
         String highScore = sharedPrefs.getString(Constants.HIGH_SCORE,"");
 
         TextView highScoreTextView = (TextView) mRootView.findViewById(R.id.highscoreTextView);
-        highScoreTextView.setText("");
+        highScoreTextView.setText("No Highscore Yet");
 
         if(!highScore.isEmpty()){
             highScoreTextView.setText("Highscore is: "+ highScore);
