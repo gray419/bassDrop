@@ -43,7 +43,11 @@
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="@string/title_activity_about" >
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.graywolf.bassdrop.MainActivity" />
         </activity>
         <meta-data android:name="com.crashlytics.ApiKey" android:value="9fbb124f8a12cf6b9e9e9e5d2a7b769556ee4775"/>
     </application>
