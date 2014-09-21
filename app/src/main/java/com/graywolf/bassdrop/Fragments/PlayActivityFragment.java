@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,17 @@ import com.google.android.gms.ads.AdView;
 import com.graywolf.bassdrop.Constants;
 import com.graywolf.bassdrop.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public class PlayActivityFragment extends Fragment{
-    private long startTime = 0L;
-    private long timeInMilliseconds = 0L;
-    private long timeSwapBuff = 0L;
-    private long updatedTime = 0L;
+    private long mStartTime = 0L;
+    private long mTimeInMilliseconds = 0L;
+    private long mTimeSwapBuff = 0L;
+    private long mUpdatedTime = 0L;
     private boolean mBuildUpStarted = false;
 
     private MediaPlayer mMediaPlayer;
@@ -40,6 +47,8 @@ public class PlayActivityFragment extends Fragment{
     private Spinner mDropSelectorSpinner;
     private Context mContext;
     private Boolean mHasBassDropped;
+    private int mSongResourceId;
+    private long mElapsedTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +59,7 @@ public class PlayActivityFragment extends Fragment{
         mHasBassDropped = false;
 
         final SharedPreferences sharedPref = getActivity().getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
+        final SharedPreferences.Editor sharedPrefsEditor = sharedPref.edit();
 
         initBannerAd();
 
@@ -92,49 +101,56 @@ public class PlayActivityFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                buildButton.setEnabled(false);
+                if(mHasBassDropped){
 
-                mHasBassDropped = true;
+                    mMediaPlayer.stop();
+                    mMediaPlayer = MediaPlayer.create(mContext, mSongResourceId);
+                    mMediaPlayer.start();
 
-                mMediaPlayer.stop();
-                int songResourceId = 0;
-
-                int selectedDrop = mDropSelectorSpinner.getSelectedItemPosition();
-                switch (selectedDrop) {
-                    case 1:
-                        songResourceId = R.raw.main_drop_lonley_island;
-                        break;
-                    case 2:
-                        songResourceId = R.raw.drop_snake_lunatic;
-                        break;
-                    case 3:
-                        songResourceId = R.raw.drop_salto_wiwek_onyourmark;
-                        break;
-                    case 4:
-                        songResourceId = R.raw.drop_brillz_swoop;
-                        break;
-                    case 5:
-                        songResourceId = R.raw.carnage_drop;
-                        break;
-                    default:
-                        songResourceId = R.raw.main_drop_lonley_island;
                 }
+                else{
+                    buildButton.setEnabled(false);
 
-                mMediaPlayer = MediaPlayer.create(mContext, songResourceId);
-                mMediaPlayer.start();
+                    mHasBassDropped = true;
+                    mMediaPlayer.stop();
+                    mSongResourceId = 0;
 
-                editor.putString(Constants.HIGH_SCORE, mTimerValue.getText().toString());
-                editor.commit();
+                    switch (mDropSelectorSpinner.getSelectedItemPosition()) {
+                        case 1:
+                            mSongResourceId = R.raw.main_drop_lonley_island;
+                            break;
+                        case 2:
+                            mSongResourceId = R.raw.drop_snake_lunatic;
+                            break;
+                        case 3:
+                            mSongResourceId = R.raw.drop_salto_wiwek_onyourmark;
+                            break;
+                        case 4:
+                            mSongResourceId = R.raw.drop_brillz_swoop;
+                            break;
+                        case 5:
+                            mSongResourceId = R.raw.carnage_drop;
+                            break;
+                        default:
+                            mSongResourceId = R.raw.main_drop_lonley_island;
+                    }
 
-                Toast toast = Toast.makeText(mContext, "New High Score!!", Toast.LENGTH_SHORT);
-                toast.show();
+                    mMediaPlayer = MediaPlayer.create(mContext, mSongResourceId);
+                    mMediaPlayer.start();
 
-                timeSwapBuff += timeInMilliseconds;
-                customHandler.removeCallbacks(updateTimerThread);
+                    sharedPrefsEditor.putString(Constants.HIGH_SCORE, mTimerValue.getText().toString());
+                    sharedPrefsEditor.commit();
 
-                YoYo.with(Techniques.RubberBand)
-                        .duration(1400)
-                        .playOn(mRootView.findViewById(R.id.timerTextView));
+                    Toast toast = Toast.makeText(mContext, "New High Score!!", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    mTimeSwapBuff += mTimeInMilliseconds;
+                    customHandler.removeCallbacks(updateTimerThread);
+
+                    YoYo.with(Techniques.RubberBand)
+                            .duration(1400)
+                            .playOn(mRootView.findViewById(R.id.timerTextView));
+                }
             }
         });
 
@@ -146,16 +162,40 @@ public class PlayActivityFragment extends Fragment{
 
         mTimerValue = (TextView) rootView.findViewById(R.id.timerTextView);
 
-        startTime = SystemClock.uptimeMillis();
+        mStartTime = SystemClock.uptimeMillis();
         customHandler.postDelayed(updateTimerThread, 0);
 
         return rootView;
+    }
+
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(!mHasBassDropped){
+            mStartTime = SystemClock.uptimeMillis();
+            Log.i("Robert", String.valueOf(mElapsedTime));
+            Log.i("Robert", String.valueOf(mTimeSwapBuff));
+            mTimeSwapBuff = mElapsedTime;
+            customHandler.postDelayed(updateTimerThread, 0);
+        mMediaPlayer.start();
+           }
+        }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        mMediaPlayer.pause();
+        Log.i("Robert", mTimerValue.getText().toString());
+        mElapsedTime = parseTime(mTimerValue.getText().toString());
+        customHandler.removeCallbacks(updateTimerThread);
     }
 
     @Override
     public void onPause(){
         super.onPause();
         mMediaPlayer.pause();
+        mElapsedTime = parseTime(mTimerValue.getText().toString());
         customHandler.removeCallbacks(updateTimerThread);
     }
 
@@ -164,15 +204,6 @@ public class PlayActivityFragment extends Fragment{
         super.onDestroy();
         mMediaPlayer.stop();
         mMediaPlayer.release();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        if(!mHasBassDropped){
-            customHandler.postDelayed(updateTimerThread, 0);
-        }
-        mMediaPlayer.start();
     }
 
     private void initBannerAd() {
@@ -195,19 +226,38 @@ public class PlayActivityFragment extends Fragment{
 
         public void run() {
 
-            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            mTimeInMilliseconds = SystemClock.uptimeMillis() - mStartTime;
 
-            updatedTime = timeSwapBuff + timeInMilliseconds;
+            mUpdatedTime = mTimeSwapBuff + mTimeInMilliseconds;
 
-            int milliseconds = (int) ((updatedTime / 10) % 100);
-            int seconds = (int) (updatedTime / 1000) % 60 ;
-            int minutes = (int) ((updatedTime / (1000*60)) % 60);
-            int hours   = (int) ((updatedTime / (1000*60*60)) % 24);
+            int milliseconds = (int) ((mUpdatedTime / 10) % 100);
+            int seconds = (int) (mUpdatedTime / 1000) % 60 ;
+            int minutes = (int) ((mUpdatedTime / (1000*60)) % 60);
 
             mTimerValue.setText(
-                    String.format("%02d:%02d:%02d",minutes,seconds,milliseconds));
+                    String.format("%02d:%02d:%02d",
+                            minutes,
+                            seconds,
+                            milliseconds));
 
             customHandler.postDelayed(this, 0);
         }
     };
+
+    private long parseTime(String time){
+        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss:SS", Locale.US);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        long milis = 0;
+
+        try {
+
+            Date date = sdf.parse(time);
+            milis =  date.getTime();
+            Log.i("Robert", "Parse time = "+String.valueOf(milis));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return milis;
+    }
 }

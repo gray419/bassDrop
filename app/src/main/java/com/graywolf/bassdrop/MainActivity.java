@@ -8,6 +8,8 @@ import com.graywolf.bassdrop.Fragments.MainActivityFragment;
 
 public class MainActivity extends Activity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

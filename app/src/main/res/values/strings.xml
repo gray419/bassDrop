@@ -8,7 +8,7 @@
     <string name="title_activity_play">Stop</string>
 
         <string-array name="drop_array">
-            <item>Select a Drop Here</item>
+            <item>Select a Drop</item>
             <item>DJ Sam F - Lonely Island</item>
             <item>DJ Snake</item>
             <item>Salto Wiwek</item>

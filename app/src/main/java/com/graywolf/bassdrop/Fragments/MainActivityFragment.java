@@ -23,6 +23,7 @@ import java.util.TimerTask;
 public class MainActivityFragment extends Fragment {
     private View mRootView;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
