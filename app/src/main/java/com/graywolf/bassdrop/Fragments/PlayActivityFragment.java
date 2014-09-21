@@ -7,7 +7,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,6 @@ public class PlayActivityFragment extends Fragment{
     private long mTimeSwapBuff = 0L;
     private long mUpdatedTime = 0L;
     private boolean mBuildUpStarted = false;
-
     private MediaPlayer mMediaPlayer;
     private Handler customHandler = new Handler();
     private TextView mTimerValue;
@@ -182,7 +180,7 @@ public class PlayActivityFragment extends Fragment{
             mStartTime = SystemClock.uptimeMillis();
             mTimeSwapBuff = mElapsedTime;
             customHandler.postDelayed(updateTimerThread, 0);
-        mMediaPlayer.start();
+            mMediaPlayer.start();
            }
         }
 
@@ -249,17 +247,16 @@ public class PlayActivityFragment extends Fragment{
     private long parseTime(String time){
         SimpleDateFormat sdf = new SimpleDateFormat("mm:ss:SS", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        long milis = 0;
+        long millis = 0;
 
         try {
 
             Date date = sdf.parse(time);
-            milis =  date.getTime();
-            Log.i("Robert", "Parse time = "+String.valueOf(milis));
+            millis =  date.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return milis;
+        return millis;
     }
 }
