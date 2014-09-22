@@ -10,7 +10,7 @@
     tools:context="com.graywolf.bassdrop.AboutActivity$PlaceholderFragment">
 
     <TextView
-        android:text="@string/about_activity_title"
+        android:text="@string/about_activity_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

@@ -13,19 +13,29 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.graywolf.bassdrop.Constants;
 import com.graywolf.bassdrop.PlayActivity;
 import com.graywolf.bassdrop.R;
+import com.graywolf.bassdrop.WillTheBassDropApplication;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivityFragment extends Fragment {
     private View mRootView;
+    private Tracker mTracker;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mTracker = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
+                WillTheBassDropApplication.TrackerName.APP_TRACKER);
+
+        mTracker.setScreenName(this.getActivity().getClass().getSimpleName());
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRootView = rootView;

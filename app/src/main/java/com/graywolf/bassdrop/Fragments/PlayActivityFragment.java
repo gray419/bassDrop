@@ -51,12 +51,16 @@ public class PlayActivityFragment extends Fragment{
     private int mSongResourceId;
     private long mElapsedTime;
     private Tracker mTracker;
+    private long mCurrentScore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mTracker = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
                 WillTheBassDropApplication.TrackerName.APP_TRACKER);
+
+        mTracker.setScreenName(this.getActivity().getClass().getSimpleName());
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
 
         View rootView = inflater.inflate(R.layout.fragment_play, container, false);
         mRootView = rootView;
@@ -143,18 +147,19 @@ public class PlayActivityFragment extends Fragment{
                     mMediaPlayer = MediaPlayer.create(mContext, mSongResourceId);
                     mMediaPlayer.start();
 
-                    trackSelectedDrop();
-
                    long previousScore = parseTime(sharedPref.getString(Constants.HIGH_SCORE,"00:00:00"));
-                   long currentScore = parseTime(mTimerValue.getText().toString());
+                   mCurrentScore = parseTime(mTimerValue.getText().toString());
 
-                   if (currentScore > previousScore){
+                   if (mCurrentScore > previousScore){
                        sharedPrefsEditor.putString(Constants.HIGH_SCORE, mTimerValue.getText().toString());
                        sharedPrefsEditor.commit();
 
                        Toast toast = Toast.makeText(mContext, "New High Score!!", Toast.LENGTH_SHORT);
                        toast.show();
                    }
+
+                    trackSelectedDrop();
+                    trackBuildDuration();
 
                     mTimeSwapBuff += mTimeInMilliseconds;
                     customHandler.removeCallbacks(updateTimerThread);
@@ -273,7 +278,15 @@ public class PlayActivityFragment extends Fragment{
                 .setCategory("Play Activity")
                 .setAction("Dropping Bass Initial")
                 .setLabel(mDropSelectorSpinner.getSelectedItem().toString())
-                .setValue(1)
+                .build());
+    }
+
+    private void trackBuildDuration(){
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Play Activity")
+                .setAction("Time Spent Building")
+                .setLabel(mTimerValue.getText().toString())
+                .setValue(mCurrentScore)
                 .build());
     }
 }

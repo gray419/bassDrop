@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.graywolf.bassdrop.Fragments.AboutActivityFragment;
 
 
@@ -15,9 +14,6 @@ public class AboutActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
-        //Get a Tracker (should auto-report)
-        ((WillTheBassDropApplication) getApplication()).getTracker(WillTheBassDropApplication.TrackerName.APP_TRACKER);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -29,14 +25,12 @@ public class AboutActivity extends Activity {
     @Override
     protected void onStart(){
         super.onStart();
-        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @Override

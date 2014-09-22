@@ -19,6 +19,7 @@ import java.util.List;
 
 public class AboutActivityFragment extends Fragment {
 
+    private Tracker mTracker;
 
     public AboutActivityFragment() {
         // Required empty public constructor
@@ -29,16 +30,18 @@ public class AboutActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_about, container, false);
 
-        Tracker t = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
+        mTracker = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
                 WillTheBassDropApplication.TrackerName.APP_TRACKER);
 
-        t.setScreenName(this.getActivity().getClass().getSimpleName());
-        t.send(new HitBuilders.AppViewBuilder().build());
+        mTracker.setScreenName(this.getActivity().getClass().getSimpleName());
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
 
         Button emailButton = (Button) rootView.findViewById(R.id.emailButton);
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                trackRequestMade("email");
                 if(!createShareIntent("gmail")){
                     createShareIntent("email");
                 }
@@ -49,6 +52,7 @@ public class AboutActivityFragment extends Fragment {
         tweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                trackRequestMade("twitter");
                 createShareIntent("twitter");
             }
         });
@@ -88,5 +92,11 @@ public class AboutActivityFragment extends Fragment {
         return found;
     }
 
-
+    private void trackRequestMade(String method){
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("About Activity")
+                .setAction("Drop Request Method")
+                .setLabel(method)
+                .build());
+    }
 }
