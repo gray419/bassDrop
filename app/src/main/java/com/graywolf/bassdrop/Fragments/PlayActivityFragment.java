@@ -22,8 +22,11 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.graywolf.bassdrop.Constants;
 import com.graywolf.bassdrop.R;
+import com.graywolf.bassdrop.WillTheBassDropApplication;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,9 +50,13 @@ public class PlayActivityFragment extends Fragment{
     private Boolean mHasBassDropped;
     private int mSongResourceId;
     private long mElapsedTime;
+    private Tracker mTracker;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        mTracker = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
+                WillTheBassDropApplication.TrackerName.APP_TRACKER);
 
         View rootView = inflater.inflate(R.layout.fragment_play, container, false);
         mRootView = rootView;
@@ -136,6 +143,7 @@ public class PlayActivityFragment extends Fragment{
                     mMediaPlayer = MediaPlayer.create(mContext, mSongResourceId);
                     mMediaPlayer.start();
 
+                    trackSelectedDrop();
 
                    long previousScore = parseTime(sharedPref.getString(Constants.HIGH_SCORE,"00:00:00"));
                    long currentScore = parseTime(mTimerValue.getText().toString());
@@ -258,5 +266,14 @@ public class PlayActivityFragment extends Fragment{
         }
 
         return millis;
+    }
+
+    private void trackSelectedDrop(){
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Play Activity")
+                .setAction("Dropping Bass Initial")
+                .setLabel(mDropSelectorSpinner.getSelectedItem().toString())
+                .setValue(1)
+                .build());
     }
 }

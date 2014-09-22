@@ -35,7 +35,7 @@
         android:text="Play"
         android:id="@+id/playButton"
         android:layout_gravity="bottom|center"
-        android:textSize="54sp"
+        android:textSize="50sp"
         android:textColor="#ff5af158"
         android:layout_below="@+id/dropTextView"
         android:layout_alignParentLeft="true"
