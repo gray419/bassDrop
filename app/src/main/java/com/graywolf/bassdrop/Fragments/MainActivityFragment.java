@@ -30,13 +30,6 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        mTracker = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
-                WillTheBassDropApplication.TrackerName.APP_TRACKER);
-
-        mTracker.setScreenName(this.getActivity().getClass().getSimpleName());
-        mTracker.send(new HitBuilders.AppViewBuilder().build());
-
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mRootView = rootView;
 
@@ -58,6 +51,22 @@ public class MainActivityFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstance){
+        super.onActivityCreated(savedInstance);
+
+        mTracker = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
+                WillTheBassDropApplication.TrackerName.APP_TRACKER);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        mTracker.setScreenName(this.getActivity().getClass().getSimpleName());
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
     }
 
     @Override

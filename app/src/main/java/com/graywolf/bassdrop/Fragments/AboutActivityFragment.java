@@ -30,12 +30,6 @@ public class AboutActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_about, container, false);
 
-        mTracker = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
-                WillTheBassDropApplication.TrackerName.APP_TRACKER);
-
-        mTracker.setScreenName(this.getActivity().getClass().getSimpleName());
-        mTracker.send(new HitBuilders.AppViewBuilder().build());
-
         Button emailButton = (Button) rootView.findViewById(R.id.emailButton);
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +52,22 @@ public class AboutActivityFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstance){
+        super.onActivityCreated(savedInstance);
+
+        mTracker = ((WillTheBassDropApplication) getActivity().getApplication()).getTracker(
+                WillTheBassDropApplication.TrackerName.APP_TRACKER);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        mTracker.setScreenName(this.getActivity().getClass().getSimpleName());
+        mTracker.send(new HitBuilders.AppViewBuilder().build());
     }
 
     private boolean createShareIntent(String type) {
