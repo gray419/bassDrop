@@ -4,10 +4,12 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -50,6 +52,21 @@ public class AboutActivityFragment extends Fragment {
                 createShareIntent("twitter");
             }
         });
+
+        TextView samTextView = (TextView) rootView.findViewById(R.id.featuredArtist1);
+        samTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView brillzTextView = (TextView) rootView.findViewById(R.id.featuredArtist2);
+        brillzTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView etcTextView = (TextView) rootView.findViewById(R.id.featuredArtist4);
+        etcTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView carnageTextView = (TextView) rootView.findViewById(R.id.featuredArtist5);
+        carnageTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView gregoSaltoTextView = (TextView) rootView.findViewById(R.id.featuredArtist6);
+        gregoSaltoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView wiwekTextView = (TextView) rootView.findViewById(R.id.featuredArtist7);
+        wiwekTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView djsankeTextView = (TextView) rootView.findViewById(R.id.featuredArtist3);
+        djsankeTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
         return rootView;
     }
@@ -109,4 +126,5 @@ public class AboutActivityFragment extends Fragment {
                 .setLabel(method)
                 .build());
     }
+
 }

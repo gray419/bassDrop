@@ -15,10 +15,19 @@
         <item>DJ Sam F - Lonely Island</item>
         <item>DJ Snake - Lunatic</item>
         <item>Salto Wiwek - On your mark</item>
-        <item>Brillz - Swoop</item>
+        <item>Brillz ETC!ETC! - Swoop</item>
         <item>Carnage - Spaceman Remix</item>
     </string-array>
 
     <string name="title_activity_about">About</string>
+
+    <!--Artist Urls-->
+    <string name="wiwek"><a href="https://soundcloud.com/wiwek">Wiwek</a></string>
+    <string name="gregor_salto"><a href="https://soundcloud.com/gregorsalto">Grego Salto</a></string>
+    <string name="dj_sam_f"><a href="https://soundcloud.com/djsamf">DJ Sam F</a></string>
+    <string name="brillz"><a href="https://soundcloud.com/itsbrillz">Brillz</a></string>
+    <string name="dj_snake"><a href="https://soundcloud.com/djsnake-king">DJ Snake</a></string>
+    <string name="carnage"><a href="https://soundcloud.com/djcarnageofficial">Carnage</a></string>
+    <string name="ETC_ETC"><a href="https://soundcloud.com/etc-etc">ETC!ETC!</a></string>
 
 </resources>

@@ -9,34 +9,136 @@
     android:background="@android:color/black"
     tools:context="com.graywolf.bassdrop.AboutActivity$PlaceholderFragment">
 
-    <TextView
-        android:text="@string/about_activity_intro"
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textColor="#ffe040fb"
-        android:id="@+id/textView" />
+        android:id="@+id/scrollView" >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/twitter_handle"
-        android:textColor="@color/twitter_blue"
-        android:id="@+id/tweetButton"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_height="fill_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email_address"
-        android:textColor="@color/gmail_red"
-        android:id="@+id/emailButton"
-        android:layout_below="@+id/tweetButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+            <TextView
+                android:text="@string/about_activity_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textColor="#ffe040fb"
+                android:id="@+id/textView" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/twitter_handle"
+                android:textColor="@color/twitter_blue"
+                android:id="@+id/tweetButton"
+                android:layout_below="@+id/textView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="36dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email_address"
+                android:textColor="@color/gmail_red"
+                android:id="@+id/emailButton"
+                android:layout_below="@+id/tweetButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Featured Artists"
+                android:textSize="24sp"
+                android:id="@+id/featuredArtistTextView"
+                android:layout_below="@+id/emailButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="45dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dj_sam_f"
+                android:textSize="24sp"
+                android:textColor="@color/NeonGreen"
+                android:clickable="true"
+                android:id="@+id/featuredArtist1"
+                android:layout_below="@+id/emailButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/brillz"
+                android:textSize="24sp"
+                android:textColor="@color/NeonGreen"
+                android:id="@+id/featuredArtist2"
+                android:clickable="true"
+                android:layout_below="@+id/featuredArtist"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dj_snake"
+                android:textSize="24sp"
+                android:textColor="@color/NeonGreen"
+                android:id="@+id/featuredArtist3"
+                android:clickable="true"
+                android:layout_below="@+id/featuredArtist2"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ETC_ETC"
+                android:textSize="24sp"
+                android:textColor="@color/NeonGreen"
+                android:clickable="true"
+                android:id="@+id/featuredArtist4"
+                android:layout_below="@+id/featuredArtist3"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/carnage"
+                android:textSize="24sp"
+                android:textColor="@color/NeonGreen"
+                android:clickable="true"
+                android:id="@+id/featuredArtist5"
+                android:layout_below="@+id/featuredArtist4"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gregor_salto"
+                android:textSize="24sp"
+                android:textColor="@color/NeonGreen"
+                android:clickable="true"
+                android:id="@+id/featuredArtist6"
+                android:layout_below="@+id/featuredArtist5"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wiwek"
+                android:textSize="24sp"
+                android:textColor="@color/NeonGreen"
+                android:linksClickable="true"
+                android:clickable="true"
+                android:id="@+id/featuredArtist7"
+                android:layout_below="@+id/featuredArtist6"
+                android:layout_centerHorizontal="true" />
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

@@ -236,8 +236,8 @@ public class PlayActivityFragment extends Fragment{
         linearLayout.addView(mBannerAdView);
 
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("41A8C241CE3F27B022E69AE9F5E4625D")
+//                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//                .addTestDevice("41A8C241CE3F27B022E69AE9F5E4625D")
                 .build();
 
         // Start loading the ad in the background.
